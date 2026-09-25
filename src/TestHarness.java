@@ -1,6 +1,7 @@
 import cpu.CPU;
 import cpu.IODevices;
 import loader.LoadFileReader;
+import memory.Cache;
 import memory.Memory;
 import memory.RegisterFile;
 
@@ -82,15 +83,18 @@ public class TestHarness {
     }
 
     private static void runCase(Expect c) {
+        // The cache is placed in the data path for the regression run so that the
+        // suite proves it is transparent: identical results with it present.
         Memory memory = new Memory();
+        Cache cache = new Cache(memory);
         RegisterFile registers = new RegisterFile();
         IODevices io = new IODevices();
-        CPU cpu = new CPU(memory, registers, io);
+        CPU cpu = new CPU(cache, registers, io);
         cpu.initialise();
 
         StringBuilder problems = new StringBuilder();
         try {
-            new LoadFileReader().load(memory, c.loadFile());
+            new LoadFileReader().load(cache, c.loadFile());
             if (c.keyboard() != null) {
                 io.typeLine(c.keyboard());
             }
@@ -117,7 +121,7 @@ public class TestHarness {
             if (c.memory() != null) {
                 for (int[] pair : c.memory()) {
                     check(problems, String.format("mem[%06o]", pair[0]),
-                            pair[1], memory.read(pair[0]));
+                            pair[1], cache.read(pair[0]));
                 }
             }
             if (c.printer() != null && !c.printer().equals(io.getPrinterOutput())) {

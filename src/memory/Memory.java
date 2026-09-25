@@ -16,7 +16,7 @@ import cpu.MachineFaultException;
  * appears in MBR. Keeping that logic in the CPU is what lets the operator
  * console display MAR and MBR correctly during single-step execution.
  */
-public class Memory {
+public class Memory implements MemoryUnit {
 
     /** Number of words installed. The ISA permits 2048 or 4096. */
     public static final int DEFAULT_SIZE = 2048;
@@ -39,6 +39,7 @@ public class Memory {
         this.words = new int[size];
     }
 
+    @Override
     public int size() {
         return words.length;
     }
@@ -48,6 +49,7 @@ public class Memory {
      * Reads from reserved locations are legal — the machine itself must read the
      * trap and fault vectors stored there.
      */
+    @Override
     public int read(int address) throws MachineFaultException {
         checkInstalled(address);
         return words[address];
@@ -58,6 +60,7 @@ public class Memory {
      * beyond installed memory, and fault id 0 for an attempt to write into the
      * reserved region.
      */
+    @Override
     public int write(int address, int value) throws MachineFaultException {
         checkInstalled(address);
         if (address <= RESERVED_LIMIT) {
@@ -73,12 +76,14 @@ public class Memory {
      * own front panel rather than as a running program, and must be able to set
      * up the trap and fault vectors.
      */
+    @Override
     public void deposit(int address, int value) throws MachineFaultException {
         checkInstalled(address);
         words[address] = value & 0xFFFF;
     }
 
     /** Clears all of memory to zero, as the Init control on the console requires. */
+    @Override
     public void clear() {
         java.util.Arrays.fill(words, 0);
     }

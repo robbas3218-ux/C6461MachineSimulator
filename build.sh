@@ -15,9 +15,9 @@ java -cp out TestHarness
 if [ "$1" = "jar" ]; then
   echo "==> packaging"
   mkdir -p dist
-  # MAIN_CLASS becomes Main once the operator console exists; until then the
-  # regression harness is the only entry point.
-  MAIN_CLASS=${MAIN_CLASS:-TestHarness}
+  # Main launches the operator console. Override to package a different
+  # entry point, e.g. MAIN_CLASS=TestHarness ./build.sh jar
+  MAIN_CLASS=${MAIN_CLASS:-Main}
   jar --create --file dist/C6461MachineSimulator.jar \
       --main-class "$MAIN_CLASS" -C out .
   echo "wrote dist/C6461MachineSimulator.jar  (main class: $MAIN_CLASS)"

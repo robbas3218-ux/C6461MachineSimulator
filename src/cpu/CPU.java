@@ -2,7 +2,7 @@ package cpu;
 
 import instruction.Instruction;
 import instruction.Opcode;
-import memory.Memory;
+import memory.MemoryUnit;
 import memory.RegisterFile;
 
 /**
@@ -22,7 +22,7 @@ import memory.RegisterFile;
  */
 public class CPU {
 
-    private final Memory memory;
+    private final MemoryUnit memory;
     private final RegisterFile registers;
     private final IODevices io;
 
@@ -31,13 +31,13 @@ public class CPU {
     /** Set when a fault has been vectored, so the console can show what happened. */
     private String lastFaultMessage;
 
-    public CPU(Memory memory, RegisterFile registers, IODevices io) {
+    public CPU(MemoryUnit memory, RegisterFile registers, IODevices io) {
         this.memory = memory;
         this.registers = registers;
         this.io = io;
     }
 
-    public Memory getMemory()          { return memory; }
+    public MemoryUnit getMemory()      { return memory; }
     public RegisterFile getRegisters() { return registers; }
     public IODevices getIo()           { return io; }
     public boolean isHalted()          { return halted; }

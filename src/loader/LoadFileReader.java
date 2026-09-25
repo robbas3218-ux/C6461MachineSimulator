@@ -1,7 +1,7 @@
 package loader;
 
 import cpu.MachineFaultException;
-import memory.Memory;
+import memory.MemoryUnit;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,27 +17,27 @@ import java.io.StringReader;
  * matches what the course assembler emits and what the reference simulator
  * accepts.
  *
- * <p>Words are placed with {@link Memory#deposit} rather than
- * {@link Memory#write} because a program is entitled to set up the trap vector
+ * <p>Words are placed with {@link MemoryUnit#deposit} rather than
+ * {@link MemoryUnit#write} because a program is entitled to set up the trap vector
  * and fault handler pointers in the reserved region — the loader is acting as
  * the machine's ROM loader, not as a running program.
  */
 public class LoadFileReader {
 
     /** Loads from a file on disk and returns the number of words placed. */
-    public int load(Memory memory, String path) throws IOException, MachineFaultException {
+    public int load(MemoryUnit memory, String path) throws IOException, MachineFaultException {
         try (Reader reader = new FileReader(path)) {
             return load(memory, reader);
         }
     }
 
     /** Loads from load-file text, for the console's paste box and for tests. */
-    public int loadFromText(Memory memory, String text)
+    public int loadFromText(MemoryUnit memory, String text)
             throws IOException, MachineFaultException {
         return load(memory, new StringReader(text));
     }
 
-    private int load(Memory memory, Reader source) throws IOException, MachineFaultException {
+    private int load(MemoryUnit memory, Reader source) throws IOException, MachineFaultException {
         int count = 0;
         try (BufferedReader in = new BufferedReader(source)) {
             String line;
