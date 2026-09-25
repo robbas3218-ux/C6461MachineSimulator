@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run regression tests",
+      "request": "launch",
+      "mainClass": "TestHarness",
+      "projectName": "C6461MachineSimulator",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "java",
+      "name": "Run simulator (operator console)",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "C6461MachineSimulator",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

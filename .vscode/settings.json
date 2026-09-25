@@ -1,0 +1,9 @@
+{
+  "java.project.sourcePaths": ["src"],
+  "java.project.outputPath": "out",
+  "java.project.referencedLibraries": [],
+  "java.compile.nullAnalysis.mode": "automatic",
+  "files.exclude": {
+    "out/": true
+  }
+}
